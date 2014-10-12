@@ -26,7 +26,7 @@ function onSave(socket, doc, cb) {
     { $project: { total: "$total" }},
     { $sort: { name: 1 }},
     function (err, droneTotal) {
-      if(err) { return handleError(res, err); }
+      if(err) cb(err);
       doc.total = droneTotal[0].total;
       socket.emit('drone:save', doc);
     });
