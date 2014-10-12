@@ -8,6 +8,11 @@ angular.module('droneNameApp', [
   'ui.router',
   'ui.bootstrap'
 ])
+  .filter('currentyear',['$filter',  function($filter) {
+    return function() {
+      return $filter('date')(new Date(), 'yyyy');
+    };
+  }])
   .directive('focus',
   function ($timeout) {
     return {
@@ -50,8 +55,3 @@ angular.module('droneNameApp', [
 
     $locationProvider.html5Mode(true);
   });
-
-function Ctrl($scope)
-{
-  $scope.date = new Date();
-}
