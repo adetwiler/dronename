@@ -9,7 +9,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Drones:</h1>
+      <h1 class="page-header">Drone Names</h1>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="drone in drones">
         <li><a href="#">{{drone.name}} - {{drone.total}}</a></li>
       </ul>
@@ -41,7 +41,7 @@
 <footer class="footer">
   <div class="container">
       <div ng-app ng-controller="Ctrl">
-            <p><a href="http://shutterpixstudio.com/">Shutterpix Studio</a> | © {{date| date:'yyyy'}} SHUTTERPIX STUDIO, LLC . ALL RIGHTS RESERVED.
+            <p><a href="http://shutterpixstudio.com/">Shutterpix Studio</a> | © {{ date| date:'yyyy'}} SHUTTERPIX STUDIO, LLC . ALL RIGHTS RESERVED.
       </div>
   </div>
 </footer>
