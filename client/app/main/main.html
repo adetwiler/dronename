@@ -2,9 +2,7 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+    <h1>NAME THAT DRONE!</h1>
   </div>
 </header>
 
@@ -19,7 +17,8 @@
   </div>
 
   <form name="form" ng-submit="submitForm(form.$valid, newDrone)" autocomplete="off" novalidate>
-    <label>Syncs in realtime across clients</label>
+    <label>What would you call what you fly?
+        A drone, UAV, something else? We want to hear form you, the people who fly them almost everyday! Submit you choice and vote on it!</label>
     <div class="form-group" show-errors>
     <input focus="true" name="dNickname" type="text" class="form-control" placeholder="What is your name (or nickname)?" required ng-model="newDrone.nickname" />
       <div ng-show="form.dNickname.$invalid && !form.dNickname.$pristine">
@@ -41,8 +40,8 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+      <div ng-app ng-controller="Ctrl">
+            <p><a href="http://shutterpixstudio.com/">Shutterpix Studio</a> | © {{date| date:'yyyy'}} SHUTTERPIX STUDIO, LLC . ALL RIGHTS RESERVED.
+      </div>
   </div>
 </footer>

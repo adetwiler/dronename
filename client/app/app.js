@@ -50,3 +50,8 @@ angular.module('droneNameApp', [
 
     $locationProvider.html5Mode(true);
   });
+
+function Ctrl($scope)
+{
+  $scope.date = new Date();
+}
