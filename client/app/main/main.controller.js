@@ -7,8 +7,8 @@ angular.module('droneNameApp')
 
     $http.get('/api/drones').success(function(drones) {
       $scope.drones = drones;
+      console.log(drones)
       socket.syncUpdates('drone', $scope.drones, function(event, drone, drones) {
-
         angular.forEach(drones, function(currentDrone, index) {
           if (currentDrone.name == drone.name) {
             if (currentDrone.$$hashKey != drone.$$hashKey) {
@@ -38,11 +38,44 @@ angular.module('droneNameApp')
 
       // check to make sure the form is completely valid
       if (isValid) {
-        $http.post('/api/drones', { nickname: drone.nickname, name: drone.name });
+        var $statusDiv = $('[data-id="statusDiv"]');
+        $('[data-dismiss="alert"]').on('click', function() {
+          $statusDiv.slideUp();
+        });
+        $statusDiv.slideUp().slideDown();
+
+        $http.post('/api/drones', { nickname: drone.nickname, name: drone.name })
+          .success(function(data, status, headers, config) {
+            $statusDiv.removeClass('alert-success alert-danger').addClass('alert-success');
+
+            if (status == 201) {
+              var found = false;
+              angular.forEach($scope.drones, function(currentDrone, index) {
+                if (currentDrone.name == drone.name) {
+                  found = true;
+                }
+              });
+
+              if (!found) {
+                $('[data-id="message"]').html('Thanks for your feedback! \'<strong>'+drone.name+'</strong>\' has been added to the list.');
+              } else {
+                $('[data-id="message"]').html('Thanks for your feedback! \'<strong>'+drone.name+'</strong>\' has been registered as a vote.');
+              }
+            }
+          })
+          .error(function(data, status, headers, config) {
+            $statusDiv.removeClass('alert-success alert-danger').addClass('alert-danger');
+            $('[data-id="message"]').html('You have already voted for <strong>\''+drone.name+'</strong>\'.');
+          });
         $scope.newDrone = '';
         $scope.form.$setPristine();
       }
 
+    };
+
+    $scope.vote = function(drone) {
+      drone.nickname = 'Anonymous';
+      this.submitForm(true, drone);
     };
 
     $scope.reset();

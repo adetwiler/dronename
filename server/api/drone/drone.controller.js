@@ -5,12 +5,25 @@ var Drone = require('./drone.model');
 
 // Get list of drones
 exports.index = function(req, res) {
-  Drone.aggregate({ $group: { _id: "$name", total: {$sum: 1}}},
-    { $project: { _id: false, name: "$_id", total: "$total" }},
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+  Drone.aggregate({ $group: { _id: "$name", total: {$sum: 1}, ips: { $addToSet: "$IP" } }},
+    { $project: {
+      _id: false,
+      name: "$_id",
+      total: "$total",
+      voted: {
+        $map: {
+          input: "$ips",
+          as: "ip",
+          in: { $cond: [ { $eq: [ "$$ip", ip ] }, true, false ] }
+        }
+      }
+    }},
     { $sort: { name: 1 }},
     function (err, drones) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, drones);
+      if(err) { return handleError(res, err, 500); }
+      return res.json(200, drones);
   });
 };
 
@@ -21,11 +34,11 @@ exports.create = function(req, res) {
   ip = { IP: ip };
   var content = _.merge(req.body, ip);
   Drone.create(content, function(err, drone) {
-    if(err) { return handleError(res, err); }
+    if(err) { return handleError(res, err, 422); }
     return res.json(201, drone);
   });
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
+function handleError(res, err, code) {
+  return res.send(code, err);
 }

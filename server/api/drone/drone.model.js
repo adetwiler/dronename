@@ -17,7 +17,7 @@ DroneSchema
     this.constructor.findOne({name: value, IP: this.IP}, function(err, user) {
       if(err) throw err;
       if(user) {
-        return respond(true);
+        return respond(false);
       }
       respond(true);
     });
