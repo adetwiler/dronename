@@ -7,7 +7,6 @@ angular.module('droneNameApp')
 
     $http.get('/api/drones').success(function(drones) {
       $scope.drones = drones;
-      console.log(drones)
       socket.syncUpdates('drone', $scope.drones, function(event, drone, drones) {
         angular.forEach(drones, function(currentDrone, index) {
           if (currentDrone.name == drone.name) {
