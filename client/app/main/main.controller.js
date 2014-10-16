@@ -9,8 +9,8 @@ angular.module('droneNameApp')
       $scope.drones = drones;
       socket.syncUpdates('drone', $scope.drones, function(event, drone, drones) {
         angular.forEach(drones, function(currentDrone, index) {
-          if (currentDrone.name == drone.name) {
-            if (currentDrone.$$hashKey != drone.$$hashKey) {
+          if (currentDrone.name === drone.name) {
+            if (currentDrone.$$hashKey !== drone.$$hashKey) {
               $scope.drones.splice(index, 1);
             }
           }
@@ -44,13 +44,13 @@ angular.module('droneNameApp')
         $statusDiv.slideUp().slideDown();
 
         $http.post('/api/drones', { nickname: drone.nickname, name: drone.name })
-          .success(function(data, status, headers, config) {
+          .success(function(data, status) {
             $statusDiv.removeClass('alert-success alert-danger').addClass('alert-success');
 
-            if (status == 201) {
+            if (status === 201) {
               var found = false;
-              angular.forEach($scope.drones, function(currentDrone, index) {
-                if (currentDrone.name == drone.name) {
+              angular.forEach($scope.drones, function(currentDrone) {
+                if (currentDrone.name === drone.name) {
                   found = true;
                 }
               });
@@ -65,7 +65,7 @@ angular.module('droneNameApp')
               scroll.scrollTo('entries');
             }
           })
-          .error(function(data, status, headers, config) {
+          .error(function() {
             $statusDiv.removeClass('alert-success alert-danger').addClass('alert-danger');
             $('[data-id="message"]').html('You have already voted for <strong>\''+drone.name+'</strong>\'.');
           });

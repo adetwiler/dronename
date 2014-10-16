@@ -21,7 +21,7 @@ angular.module('droneNameApp', [
       },
       link: function (scope, element) {
         scope.$watch('trigger', function (value) {
-          if (value === "true") {
+          if (value === 'true') {
             $timeout(function () {
               element[0].focus();
             });
@@ -35,7 +35,7 @@ angular.module('droneNameApp', [
       require:  '^form',
       link: function (scope, el, attrs, formCtrl) {
         // find the text box element, which has the 'name' attribute
-        var inputEl   = el[0].querySelector("[name]");
+        var inputEl   = el[0].querySelector('[name]');
         // convert the native text box element to an angular element
         var inputNgEl = angular.element(inputEl);
         // get the name on the text box so we know the property to check
@@ -45,9 +45,9 @@ angular.module('droneNameApp', [
         // only apply the has-error class after the user leaves the text box
         inputNgEl.bind('keyup', function() {
           el.toggleClass('has-error', formCtrl[inputName].$invalid);
-        })
+        });
       }
-    }
+    };
   })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
