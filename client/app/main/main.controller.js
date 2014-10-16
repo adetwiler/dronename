@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('droneNameApp')
-  .controller('MainCtrl', function ($scope, $http, socket) {
+  .controller('MainCtrl', function ($scope, $http, socket, scroll) {
     $scope.drones = [];
     $scope.master = {};
 
@@ -60,6 +60,9 @@ angular.module('droneNameApp')
               } else {
                 $('[data-id="message"]').html('Thanks for your feedback! \'<strong>'+drone.name+'</strong>\' has been registered as a vote.');
               }
+
+
+              scroll.scrollTo('entries');
             }
           })
           .error(function(data, status, headers, config) {
@@ -68,6 +71,8 @@ angular.module('droneNameApp')
           });
         $scope.newDrone = '';
         $scope.form.$setPristine();
+
+        scroll.scrollTo('entries');
       }
 
     };
@@ -76,6 +81,12 @@ angular.module('droneNameApp')
       drone.nickname = 'Anonymous';
       this.submitForm(true, drone);
     };
+
+    $scope.scrollTo = scroll.scrollTo;
+
+    angular.element(document).ready(function() {
+      Atropos();
+    });
 
     $scope.reset();
 

@@ -1,53 +1,123 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>NAME THAT DRONE!</h1>
-  </div>
-</header>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
+<!-- WRAPPER -->
+<div id="wrapper">
 
-        <div style="display: none;" class="alert alert-danger fade in" role="alert" data-id="statusDiv">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-            <span data-id="message"></span>
+    <section id="slider" class="full-screen">
+
+        <!-- slider navigation -->
+        <nav class="slides-navigation">
+            <a class="prev" href="#"></a>
+            <a class="next" href="#"></a>
+        </nav>
+
+        <ul class="slides-container">
+
+            <li>
+                <div class="image-caption">
+                    <div class="inner text-center"><!-- text center , text-left or text-right -->
+                        <div class="block margin-bottom20">
+                            <h1>NAME THAT DRONE!</h1>
+                            <h4 style="text-transform: none; font-weight: 200">What would you call what you fly? <br>A drone, UAV, something else? We want to hear form you, the people who fly them almost everyday! Submit you choice and vote on it!</h4>
+                        </div>
+
+                        <form name="form" ng-submit="submitForm(form.$valid, newDrone)" autocomplete="off" novalidate>
+                            <div class="row">
+                                <div class="form-group" show-errors>
+                                    <div class="col-md-12 margin-bottom20">
+                                        <input focus="true" type="text" class="form-control input-lg" name="dNickname" id="nickname" placeholder="What's your name (or nickname)" style="height: 60px; font-size: 25px;" required ng-model="newDrone.nickname" />
+                                        <div ng-show="form.dNickname.$invalid && !form.dNickname.$pristine">
+                                            <p class="help-block" ng-show="form.dNickname.$error.required">Tell us your name (or nickname).</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control input-lg" ng-pattern="/^[a-zA-Z0-9 ]*$/" name="dName" id="name" placeholder="What would you call it?" style="height: 60px; font-size: 25px;" required ng-model="newDrone.name" />
+                                        <div ng-show="form.dName.$invalid && !form.dName.$pristine">
+                                            <p class="help-block" ng-show="form.dName.$error.required">Tell us what it should be called.</p>
+                                            <p class="help-block" ng-show="form.dName.$error.pattern">No special characters allowed.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-lg" ng-disabled="form.$invalid || isUnchanged(newDrone)">Send It!</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <!--<span class="overlay"></span>-->
+                <div style="background-image: url('../assets/images/demo/parallax_bg.jpg');" class="fullscreen-img"></div>
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about" class="parallax delayed" data-stellar-background-ratio="0.7" style="background-image: url('../assets/images/demo/parallax.jpg');">
+        <span class="overlay"></span>
+
+        <div class="container">
+
+            <div class="row">
+                <!-- left content -->
+                <div class="col-md-7 animation_fade_in">
+                    <h2>Name <strong>That Drone</strong></h2>
+                    <p class="lead">
+                        With so may different names to describe what UAV enthusiats and hobbyists use and do, it's hard to find proper, acceptable names for the us and the public.
+                    </p>
+                    <p>
+                        I built this site out of curiousity  to see what the public, pilots, enthusiats and hobbyists think it should be called. Submit names, vote on them, have fun and let's check out the results.
+                    </p>
+
+                    <a class="btn btn-primary btn-lg" ng-click="scrollTo('entries')">Check the results!</a>
+                </div>
+
+                <!-- right image -->
+                <div class="col-md-5 animation_fade_in">
+                    <img class="visible-md visible-lg img-responsive pull-right" src="../../assets/images/demo/desktop.png">
+                </div>
+            </div>
         </div>
+    </section>
+    <!-- /ABOUT -->
 
-      <h1 class="page-header">Drone Names</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="drone in drones">
-        <li><a href="#">{{drone.name}} - {{drone.total}} <button ng-if="drone.voted[0]==false" class="vote" ng-click="vote(drone)">Vote</button></a></li>
-      </ul>
-    </div>
-  </div>
 
-  <form name="form" ng-submit="submitForm(form.$valid, newDrone)" autocomplete="off" novalidate>
-    <label>What would you call what you fly?
-        A drone, UAV, something else? We want to hear form you, the people who fly them almost everyday! Submit you choice and vote on it!</label>
-    <div class="form-group" show-errors>
-    <input focus="true" name="dNickname" type="text" class="form-control" placeholder="What is your name (or nickname)?" required ng-model="newDrone.nickname" />
-      <div ng-show="form.dNickname.$invalid && !form.dNickname.$pristine">
-          <p class="help-block" ng-show="form.dNickname.$error.required">Tell us your name (or nickname).</p>
-      </div>
-    </div>
-    <div class="form-group" show-errors>
-    <input ng-pattern="/^[a-zA-Z0-9 ]*$/" name="dName" type="text" class="form-control" placeholder="What would you call it?" required ng-model="newDrone.name" />
-      <div ng-show="form.dName.$invalid && !form.dName.$pristine">
-          <p class="help-block" ng-show="form.dName.$error.required">Tell us what it should be called.</p>
-          <p class="help-block" ng-show="form.dName.$error.pattern">No special characters allowed.</p>
-      </div>
-    </div>
-    <span class="input-group-btn">
-      <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || isUnchanged(newDrone)">Add New</button>
-    </span>
-  </form>
+
+    <!-- ENTRIES -->
+    <section id="entries" class="padding100">
+        <div class="container">
+
+            <a class="btn btn-primary btn-lg" ng-click="scrollTo('wrapper')">Vote Again!</a>
+
+            <div style="display: none;" class="alert alert-danger fade in" role="alert" data-id="statusDiv">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <span data-id="message"></span>
+            </div>
+
+            <h1 class="text-center"><strong>The</strong >Results</h1>
+            <div class="divider"><!-- divider -->
+                <i class="fa fa-star"></i>
+            </div>
+
+            <div class="row pricetable-container">
+                <div style="visibility: hidden;" class="col-md-3 price-table">
+                </div>
+
+                <div class="col-md-3 price-table">
+                    <h3>DRONE NAMES</h3>
+
+                    <ul ng-repeat="drone in drones">
+                        <li>{{drone.name}} - {{drone.total}} <button ng-if="drone.voted[0]==false" class="vote" ng-click="vote(drone)">Vote</button></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- /ENTRIES -->
+
 </div>
-
-<footer class="footer">
-  <div class="container">
-      <div ng-app="droneNameApp">
-            <p><a href="http://shutterpixstudio.com/">Shutterpix Studio</a> | © {{ '' | currentyear }} SHUTTERPIX STUDIO, LLC . ALL RIGHTS RESERVED.
-      </div>
-  </div>
-</footer>
+<!-- /WRAPPER -->
